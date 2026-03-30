@@ -59,8 +59,7 @@
                 </div>
             </div>
             
-            <div id="questionsContainer" class="space-y-8 mb-8">
-                </div>
+            <div id="questionsContainer" class="space-y-8 mb-8"></div>
 
             <div class="border-t border-slate-200 pt-6 text-center">
                 <p id="errorMessage" class="text-red-500 font-bold mb-4 hidden-view">⚠️ 還有題目尚未作答完成喔！</p>
@@ -93,10 +92,9 @@
         <div id="view-review" class="hidden-view">
             <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
                 <h2 class="text-xl font-bold text-slate-800">🔍 錯題檢討</h2>
-                <button onclick="backToResult()" class="text-slate-500 font-bold hover:text-slate-700">返回成績 &times;</button>
+                <button onclick="backToResult()" class="text-slate-500 font-bold hover:text-slate-700 bg-slate-100 px-3 py-1 rounded-lg">返回成績 &times;</button>
             </div>
-            <div id="reviewContainer" class="space-y-6 mb-8">
-                </div>
+            <div id="reviewContainer" class="space-y-6 mb-8"></div>
             <div class="text-center border-t border-slate-200 pt-6">
                 <button onclick="startRetest()" class="bg-orange-500 text-white px-10 py-3 rounded-xl font-bold hover:bg-orange-600 transition shadow-md">立刻進行錯題重測 🚀</button>
             </div>
@@ -110,14 +108,14 @@
 
     <script>
         // ==========================================
-        // 🚀 教練提醒：請在這裡填入你的 Google Apps Script 網址
+        // 🚀 貼上 Google Apps Script 的網頁應用程式網址
         // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzhtEEWxux-kyr81tD1h3q9xzkkG0Acf6-iFxpoAIaTRQz-qq5qHIae-F2AzwClYLP9/exec"; 
+        const GAS_API_URL = "請貼上網址"; 
         // ==========================================
 
         const questionsData = [
             { id: 1, type: "single", text: "作文的評比是在什麼階段會採計到？", options: ["總積分", "總積點", "單科比序比國文的時候"], ans: [0] },
-            { id: 2, type: "single", text: "一般高中志工服務時數如何計算分數？(測試題)", options: ["滿規定小時即得滿分", "由各國中主觀認定", "不採計分數"], ans: [0] }, // 暫定假選項
+            { id: 2, type: "single", text: "一般高中志工服務時數如何計算分數？(測試題)", options: ["滿規定小時即得滿分", "由各國中主觀認定", "不採計分數"], ans: [0] }, 
             { id: 3, type: "single", text: "大園高中今年有多少優免名額給大園國中？", options: ["9", "18", "19"], ans: [1] },
             { id: 4, type: "single", text: "大園高中今年有多少優免名額給青埔國中？", options: ["9", "8", "19"], ans: [1] },
             { id: 5, type: "single", text: "甚麼是廣義免試入學？", options: ["不用考試即可進高中", "不用參加入學考試", "依據國中在校表現與會考成績等多元資料來分發入學"], ans: [2] },
@@ -126,9 +124,9 @@
             { id: 8, type: "multi", text: "有哪些普通高中去年有開資優班？", options: ["武陵高中", "大園高中", "中大壢中", "觀音高中"], ans: [0, 2] },
             { id: 9, type: "single", text: "特殊身分佔學校原錄取分數的幾%？", options: ["25%", "10%", "2%"], ans: [2] },
             { id: 10, type: "single", text: "寫作分為3級分時，會拿到多少積分？", options: ["3分", "2分", "1分"], ans: [1] },
-            { id: 11, type: "single", text: "思誼(A+ A A++ A+ A+ 作文4級分 低收入戶) 與 乙凡(A++ A++ A++ A+ A+ 作文5級分 家境小康)，同時選武陵為第一志願，誰會錄取？(參考去年資料)", options: ["只有思誼", "只有乙凡", "兩個都錄取", "不一定"], ans: [2] },
+            { id: 11, type: "single", text: "思誼(國A+、數A、英A++、社A+、自A+、作文4級分、低收入戶) 與 乙凡(國A++、數A++、英A++、社A+、自A+、作文5級分、家境小康)，同時選武陵為第一志願，請問誰會錄取？(參考去年資料)", options: ["只有思誼", "只有乙凡", "兩個都錄取", "不一定"], ans: [2] },
             { id: 12, type: "single", text: "低收入戶會在什麼時候篩選？", options: ["比總積分時", "比總積點時", "志願序填寫前就先篩選"], ans: [0] },
-            { id: 13, type: "single", text: "情境題：映竹(國A++數A英A+社A+自A+ 作文2級分) vs 立銘(國A+數A++英A社A++自A 作文5級分)，比積分誰優先錄取？", options: ["映竹", "立銘", "同時"], ans: [1] },
+            { id: 13, type: "single", text: "情境題：映竹(國A++、數A、英A+、社A+、自A+、作文2級分) vs 立銘(國A+、數A++、英A、社A++、自A、作文5級分)，比積分誰優先錄取？", options: ["映竹", "立銘", "同時"], ans: [1] },
             { id: 14, type: "single", text: "填志願時，高職的同一群不同學系連續填幾個會記為同一志願序？", options: ["3個", "5個", "無限"], ans: [2] },
             { id: 15, type: "multi", text: "為什麼要帶孩子們參加國三千人聯合模考？", options: ["讓孩子們可以先認識育達高中的環境", "增加孩子的實戰經驗", "增加一次模考機會", "讓孩子測試自己文具在會考當天會不會壞掉"], ans: [1, 2] },
             { id: 16, type: "single", text: "關於桃連區免試入學的計分與錄取規則，下列何者正確？", options: ["只看會考成績，總分100分中會考占滿100分，志願序不影響。", "三大項目為適性輔導32分、多元表現35分、會考33分；總積分相同需依序比序，志願序積分可能影響錄取。", "三大項目為志願序35分、服務時數32分、會考33分；會考同分就一定錄取。", "志願序僅供參考，不列入積分或比序項目。"], ans: [1] },
@@ -139,10 +137,10 @@
         ];
 
         let currentUser = "";
-        let currentTestMode = "first"; // 'first' 或 'retest'
-        let currentQuestions = []; // 目前畫面上要考的題目
-        let userAnswers = {}; // 記錄使用者的選擇
-        let wrongQuestionsList = []; // 紀錄錯題 ID
+        let currentTestMode = "first"; 
+        let currentQuestions = []; 
+        let userAnswers = {}; 
+        let wrongQuestionsList = []; 
 
         const ALPHABET = ["A", "B", "C", "D", "E"];
 
@@ -161,14 +159,13 @@
             currentUser = nameInput;
             document.getElementById('displayName').innerText = currentUser;
             currentTestMode = "first";
-            currentQuestions = questionsData; // 首測：全部題目
+            currentQuestions = questionsData; 
             renderQuestions();
             switchView('view-test');
         }
 
         function startRetest() {
             currentTestMode = "retest";
-            // 只篩選出剛剛錯的題目
             currentQuestions = questionsData.filter(q => wrongQuestionsList.includes(q.id));
             document.getElementById('testTitle').innerText = "🔁 錯題重測進行中";
             renderQuestions();
@@ -186,14 +183,13 @@
         function renderQuestions() {
             const container = document.getElementById('questionsContainer');
             container.innerHTML = "";
-            userAnswers = {}; // 清空答案紀錄
+            userAnswers = {}; 
             document.getElementById('errorMessage').classList.add('hidden-view');
 
             currentQuestions.forEach((q, index) => {
                 const qDiv = document.createElement('div');
                 qDiv.className = "bg-slate-50 p-5 md:p-6 rounded-xl border border-slate-200";
                 
-                // 題目標題與類型標籤
                 const badgeStr = q.type === 'single' ? 
                     `<span class="bg-blue-100 text-blue-700 text-[10px] px-2 py-0.5 rounded font-bold ml-2 align-middle border border-blue-200">單選</span>` : 
                     `<span class="bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded font-bold ml-2 align-middle border border-orange-200">複選</span>`;
@@ -221,9 +217,7 @@
             });
         }
 
-        // 監聽選擇，處理視覺樣式與資料記錄
         window.recordAnswer = function(qId, optIndex, type) {
-            // 處理自訂勾選圓圈的視覺
             const qContainer = document.querySelector(`input[name="q_${qId}"]`).closest('div.space-y-3');
             
             if (type === 'single') {
@@ -243,12 +237,12 @@
                 const selectedLabel = document.querySelector(`label[for="q_${qId}_opt_${optIndex}"] .option-indicator`);
                 
                 if(idx > -1) {
-                    userAnswers[qId].splice(idx, 1); // 移除
+                    userAnswers[qId].splice(idx, 1); 
                     selectedLabel.classList.remove('bg-comma-blue', 'border-comma-blue', 'text-white');
                     selectedLabel.classList.add('bg-white', 'border-slate-300', 'text-slate-500');
                     selectedLabel.innerHTML = "";
                 } else {
-                    userAnswers[qId].push(optIndex); // 新增
+                    userAnswers[qId].push(optIndex); 
                     selectedLabel.classList.remove('bg-white', 'text-slate-500');
                     selectedLabel.classList.add('bg-comma-blue', 'border-comma-blue', 'text-white');
                     selectedLabel.innerHTML = "✓";
@@ -257,7 +251,6 @@
         };
 
         async function submitTest() {
-            // 防呆檢查：是否有漏答
             let allAnswered = true;
             for(let q of currentQuestions) {
                 if(!userAnswers[q.id] || userAnswers[q.id].length === 0) {
@@ -271,7 +264,6 @@
             }
             document.getElementById('errorMessage').classList.add('hidden-view');
 
-            // 結算分數與錯題
             let correctCount = 0;
             wrongQuestionsList = [];
             
@@ -285,17 +277,13 @@
                 }
             });
 
-            // 如果是錯題重測，總題數依然算 20 題，用來計算總分
-            // 但為避免複雜，我們直接計算「本次測驗答對的比例」換算成 100 分制
             const totalQ = currentQuestions.length;
             let score = Math.round((correctCount / totalQ) * 100);
             
-            // 特別處理：如果是在錯題重測中全對，代表最終狀態為 100 分
             if(currentTestMode === 'retest' && wrongQuestionsList.length === 0) {
                 score = 100;
             }
 
-            // 準備打 API 上傳到 Google Sheets
             document.getElementById('loadingOverlay').classList.remove('hidden-view');
             
             const payload = {
@@ -311,8 +299,6 @@
                         method: "POST",
                         body: JSON.stringify(payload)
                     });
-                } else {
-                    console.log("未設定 GAS URL，跳過上傳，進入本地結算展示。");
                 }
             } catch (e) {
                 console.error("上傳失敗", e);
@@ -325,19 +311,17 @@
         function showResult(score, wrongCount) {
             document.getElementById('finalScore').innerText = score;
             
-            // 圓環動畫特效
             const circle = document.getElementById('scoreCircle');
             const offset = 439.8 - (439.8 * score) / 100;
             setTimeout(() => { circle.style.strokeDashoffset = offset; }, 100);
 
-            // 顯示文字與按鈕控制
             const msgEl = document.getElementById('resultMessage');
             const btnRetest = document.getElementById('btnRetest');
             
             if (wrongCount === 0) {
                 msgEl.innerText = "🎉 太棒了！您已完全掌握所有升學制度重點！";
                 msgEl.className = "text-lg font-black text-green-600 mb-8 text-center";
-                btnRetest.classList.add('hidden-view'); // 全對不用重測
+                btnRetest.classList.add('hidden-view'); 
             } else {
                 msgEl.innerText = `📝 尚有 ${wrongCount} 題觀念待釐清，請進行錯題檢討！`;
                 msgEl.className = "text-lg font-bold text-orange-600 mb-8 text-center";
@@ -354,18 +338,32 @@
             if (wrongQuestionsList.length === 0) {
                 container.innerHTML = "<p class='text-center text-slate-500 py-10'>您沒有任何錯題喔！🎉</p>";
             } else {
-                currentQuestions.forEach((q, idx) => {
+                currentQuestions.forEach((q) => {
                     if(wrongQuestionsList.includes(q.id)) {
                         const uAnsArr = userAnswers[q.id] || [];
                         const uAnsStr = uAnsArr.map(i => ALPHABET[i]).join(', ');
                         const cAnsStr = q.ans.map(i => ALPHABET[i]).join(', ');
                         
+                        // 產生原本的選項清單
+                        let optionsHtml = `<ul class="mb-4 space-y-1 text-sm text-slate-600 pl-2">`;
+                        q.options.forEach((opt, oIdx) => {
+                            optionsHtml += `<li>${ALPHABET[oIdx]}. ${opt}</li>`;
+                        });
+                        optionsHtml += `</ul>`;
+                        
                         container.innerHTML += `
-                        <div class="bg-red-50 p-5 rounded-xl border border-red-200 shadow-sm">
+                        <div class="bg-red-50 p-5 md:p-6 rounded-xl border border-red-100 shadow-sm">
                             <h3 class="font-bold text-slate-800 mb-3"><span class="text-red-500">Q:</span> ${q.text}</h3>
-                            <div class="flex flex-col md:flex-row gap-2 md:gap-6 text-sm">
-                                <p class="text-red-600 font-bold bg-white px-3 py-2 rounded border border-red-200">❌ 你的選擇：${uAnsStr || '未作答'}</p>
-                                <p class="text-green-700 font-bold bg-white px-3 py-2 rounded border border-green-200">✅ 正確解答：${cAnsStr}</p>
+                            ${optionsHtml}
+                            <div class="flex flex-col md:flex-row gap-3 md:gap-6 text-sm mt-4 border-t border-red-100 pt-4">
+                                <div class="flex-1 bg-white px-4 py-3 rounded-lg border border-red-200">
+                                    <span class="text-red-500 font-black block text-xs mb-1">你的選擇</span>
+                                    <span class="text-slate-800 font-bold">${uAnsStr || '未作答'}</span>
+                                </div>
+                                <div class="flex-1 bg-white px-4 py-3 rounded-lg border border-green-200">
+                                    <span class="text-green-600 font-black block text-xs mb-1">正確解答</span>
+                                    <span class="text-slate-800 font-bold">${cAnsStr}</span>
+                                </div>
                             </div>
                         </div>`;
                     }
