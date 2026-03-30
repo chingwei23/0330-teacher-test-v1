@@ -110,7 +110,7 @@
         // ==========================================
         // 🚀 貼上 Google Apps Script 的網頁應用程式網址
         // ==========================================
-        const GAS_API_URL = "https://script.google.com/macros/s/AKfycbzhtEEWxux-kyr81tD1h3q9xzkkG0Acf6-iFxpoAIaTRQz-qq5qHIae-F2AzwClYLP9/exec"; 
+        const GAS_API_URL = "請把你的網址貼在這裡"; 
         // ==========================================
 
         const questionsData = [
@@ -293,16 +293,22 @@
                 wrongQs: wrongQuestionsList.join(', ') || "無"
             };
 
+            // 🚀 關鍵解藥：使用 no-cors 模式繞過瀏覽器阻擋
             try {
                 if(GAS_API_URL && GAS_API_URL.startsWith("http")) {
                     await fetch(GAS_API_URL, {
                         method: "POST",
+                        mode: "no-cors",
+                        headers: { "Content-Type": "text/plain;charset=utf-8" },
                         body: JSON.stringify(payload)
                     });
+                } else {
+                    console.log("未填入網址，僅供本地測試結算。");
                 }
             } catch (e) {
-                console.error("上傳失敗", e);
+                console.error("傳送時發生預期外的錯誤：", e);
             } finally {
+                // 不管回傳成功失敗（因為 no-cors 看不到），都進入結算畫面
                 document.getElementById('loadingOverlay').classList.add('hidden-view');
                 showResult(score, wrongQuestionsList.length);
             }
@@ -344,7 +350,6 @@
                         const uAnsStr = uAnsArr.map(i => ALPHABET[i]).join(', ');
                         const cAnsStr = q.ans.map(i => ALPHABET[i]).join(', ');
                         
-                        // 產生原本的選項清單
                         let optionsHtml = `<ul class="mb-4 space-y-1 text-sm text-slate-600 pl-2">`;
                         q.options.forEach((opt, oIdx) => {
                             optionsHtml += `<li>${ALPHABET[oIdx]}. ${opt}</li>`;
